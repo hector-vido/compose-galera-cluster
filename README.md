@@ -20,7 +20,7 @@ The **balancer** will fail, just ignore it. You can use the option `-d` to detac
 
 ## Second Step - Other Masters
 
-After the command above looks stable, edit the compose file removing all comments and the execute in another terminal - if you don't used `-d`:
+After the command above looks stable, edit the compose file removing all comments from the **db1** and **db2** services and the execute in another terminal - if you don't used `-d`:
 
   docker-compose up -d
 
