@@ -1,0 +1,48 @@
+version: '3.0'
+
+services:
+  app:
+    image: alpine
+    command: /bin/sh -c 'apk add php-cli php-mysqli && php -S 0.0.0.0:80 -t /app'
+    ports:
+    - 8080:80
+    environment:
+      DB_HOST: balancer
+      DB_USER: root
+      DB_PASS: dragonfly
+    volumes:
+    - ./app:/app
+  balancer: 
+    image: haproxy:alpine
+    volumes:
+    - ./etc/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+  db0:
+    image: mariadb:10.3
+    command: --wsrep-new-cluster --wsrep_node_address=db0
+    #command: --wsrep_node_address=db0
+    hostname: db0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: dragonfly
+    volumes:
+    - ./etc/galera.cnf:/etc/mysql/mariadb.conf.d/galera.cnf
+#  db1:
+#    image: mariadb:10.3
+#    command: --wsrep_node_address=db1 --user=mysql
+#    hostname: db1
+#    restart: always
+#    entrypoint: mysqld
+#    environment:
+#      MYSQL_ROOT_PASSWORD: dragonfly
+#    volumes:
+#    - ./etc/galera.cnf:/etc/mysql/mariadb.conf.d/galera.cnf
+#  db2:
+#    image: mariadb:10.3
+#    command: --wsrep_node_address=db2 --user=mysql
+#    hostname: db2
+#    restart: always
+#    entrypoint: mysqld
+#    environment:
+#      MYSQL_ROOT_PASSWORD: dragonfly
+#    volumes:
+#    - ./etc/galera.cnf:/etc/mysql/mariadb.conf.d/galera.cnf

@@ -1,0 +1,10 @@
+[galera]
+wsrep_on=ON
+wsrep_provider=/usr/lib/libgalera_smm.so
+wsrep_cluster_name=dragonfly
+wsrep_cluster_address=gcomm://db0:4567,db1:4567,db2:4567
+binlog_format=row
+default_storage_engine=InnoDB
+innodb_autoinc_lock_mode=2
+wsrep_provider_options="pc.wait_prim_timeout=PT120S;evs.install_timeout=PT15S"
+wsrep_sst_auth=root:dragonfly
